@@ -28,7 +28,10 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private AppBarConfiguration mAppBarConfiguration;
     public String[] permissions = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
 
     @Override

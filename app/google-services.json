@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1066318891219",
+    "firebase_url": "https://beattilesproject.firebaseio.com",
+    "project_id": "beattilesproject",
+    "storage_bucket": "beattilesproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066318891219:android:89e49dc880ec5a29ceec26",
+        "android_client_info": {
+          "package_name": "com.example.myjetpack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066318891219-uo0m1t8iiihnre2ukq5t7bmno4hbjmg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGu5YPJfQsRmMWsRkuvv2z7FXFlzfMnXk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066318891219-uo0m1t8iiihnre2ukq5t7bmno4hbjmg4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
