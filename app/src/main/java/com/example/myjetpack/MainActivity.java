@@ -2,13 +2,17 @@ package com.example.myjetpack;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -23,10 +27,15 @@ import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private AppBarConfiguration mAppBarConfiguration;
     private String[] permissions;
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
+    private ImageView profilepic;
+    private TextView textName;
+    private TextView textEmail;
 
 
     @Override
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
             };
-        }else{
+        } else {
             permissions = new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -60,10 +69,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         // permission logic
 
         boolean status = EasyPermissions.hasPermissions(this, permissions);
-        if (!status){
-            EasyPermissions.requestPermissions(this,"location permissions",99,permissions);
-        }
-        else{
+        if (!status) {
+            EasyPermissions.requestPermissions(this, "location permissions", 99, permissions);
+        } else {
             updateUI();
         }
     }
@@ -77,17 +85,42 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                         .setAction("Action", null).show();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.navbar_logout)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        updateNav();
+        MenuItem logout_option = navigationView.getMenu().getItem(3);
+        logout_option.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(MainActivity.this, "it works", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                return true;
+            }
+        });
+    }
+
+    private void updateNav() {
+        View headerView = navigationView.getHeaderView(0);
+        profilepic = headerView.findViewById(R.id.profilePic);
+        textName = headerView.findViewById(R.id.textName);
+        textEmail = headerView.findViewById(R.id.textEmail);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String displayName = "Polka dot ketchup";
+        String email = "patttyjenking@pj.com";
+        textName.setText(displayName);
+        textEmail.setText(email);
     }
 
     @Override
@@ -96,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -106,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
